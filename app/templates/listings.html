@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Listings{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>For-Sale Listings <small>BMW 02 series cars currently on the UK market</small></h1>
+    <a href="{{ url_for('main.listing_add') }}" class="btn btn-primary">+ Add Listing</a>
+</div>
+
+<form class="filters" method="get">
+    <span class="filter-label">Filter:</span>
+    <select name="variant" onchange="this.form.submit()">
+        <option value="">All Variants</option>
+        {% for v in variants %}
+        <option value="{{ v.id }}" {% if variant_filter == v.id %}selected{% endif %}>{{ v.name }}</option>
+        {% endfor %}
+    </select>
+    <label style="display: flex; align-items: center; gap: 0.3rem; font-size: 0.85rem;">
+        <input type="checkbox" name="sold" value="1" {% if show_sold %}checked{% endif %} onchange="this.form.submit()">
+        Include sold
+    </label>
+    {% if variant_filter or show_sold %}
+    <a href="{{ url_for('main.listings') }}" class="btn btn-secondary btn-sm">Clear filters</a>
+    {% endif %}
+</form>
+
+{% if listings %}
+<div class="card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Variant</th>
+                    <th>Year</th>
+                    <th>Price</th>
+                    <th>Deal?</th>
+                    <th>Condition</th>
+                    <th>Location</th>
+                    <th>Source</th>
+                    <th>Listed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for listing in listings %}
+                <tr {% if listing.is_sold %}style="opacity: 0.55"{% endif %}>
+                    <td>
+                        <strong>{{ listing.title }}</strong>
+                        {% if listing.is_sold %}<span class="badge badge-secondary">SOLD</span>{% endif %}
+                    </td>
+                    <td>{{ listing.variant.name }}</td>
+                    <td>{{ listing.year or '—' }}</td>
+                    <td class="price">&pound;{{ "{:,}".format(listing.price_gbp) }}</td>
+                    <td>
+                        {% if listing.id in deal_ratings %}
+                        {% set dr = deal_ratings[listing.id] %}
+                        <span class="deal-rating">
+                            <span class="badge badge-{{ dr.css }}">{{ dr.label }}</span>
+                            <span class="deal-detail">{{ dr.detail }}</span>
+                        </span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td>
+                        {% if listing.condition %}
+                        <span class="badge badge-{{ listing.condition }}">{{ listing.condition }}</span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td>{{ listing.location or '—' }}</td>
+                    <td>{{ listing.source_site or '—' }}</td>
+                    <td>{{ listing.listed_at.strftime('%d %b %y') if listing.listed_at else '—' }}</td>
+                    <td>
+                        <div class="btn-group">
+                            {% if listing.source_url %}
+                            <a href="{{ listing.source_url }}" target="_blank" class="btn btn-secondary btn-sm">View</a>
+                            {% endif %}
+                            <a href="{{ url_for('main.listing_edit', listing_id=listing.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+                            <form method="post" action="{{ url_for('main.listing_delete', listing_id=listing.id) }}" style="display:inline" onsubmit="return confirm('Delete this listing?')">
+                                <button type="submit" class="btn btn-danger btn-sm">Del</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<p style="color: var(--text-muted); font-size: 0.82rem;">Showing {{ listings|length }} listing{{ 's' if listings|length != 1 }}</p>
+{% else %}
+<div class="empty-state">
+    <p>No listings tracked yet.</p>
+    <a href="{{ url_for('main.listing_add') }}" class="btn btn-primary">Add the first listing</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Market Analysis{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Market Analysis <small>Price trends and valuation data for BMW 02 series in the UK</small></h1>
+    <a href="{{ url_for('main.price_record_add') }}" class="btn btn-primary">+ Add Sale Record</a>
+</div>
+
+<form class="filters" method="get">
+    <span class="filter-label">Filter:</span>
+    <select name="variant" onchange="this.form.submit()">
+        <option value="">All Variants</option>
+        {% for v in variants %}
+        <option value="{{ v.id }}" {% if variant_filter == v.id %}selected{% endif %}>{{ v.name }}</option>
+        {% endfor %}
+    </select>
+    {% if variant_filter %}
+    <a href="{{ url_for('main.market') }}" class="btn btn-secondary btn-sm">Clear filter</a>
+    {% endif %}
+</form>
+
+{% if chart_data %}
+<div class="chart-container">
+    <canvas id="priceChart"></canvas>
+</div>
+{% endif %}
+
+{% if analysis %}
+<h2 style="margin-bottom: 1rem;">Variant Analysis</h2>
+<div class="analysis-grid">
+    {% for a in analysis %}
+    <div class="analysis-card">
+        <h3>
+            {{ a.variant.name }}
+            <span class="badge badge-{{ a.trend }}">{{ a.trend }}</span>
+        </h3>
+        <dl class="analysis-stats">
+            <dt>Sale records</dt>
+            <dd>{{ a.count }}</dd>
+            <dt>Price range</dt>
+            <dd>&pound;{{ "{:,}".format(a.min_price) }} &ndash; &pound;{{ "{:,}".format(a.max_price) }}</dd>
+            <dt>Overall avg</dt>
+            <dd class="price">&pound;{{ "{:,}".format(a.avg_price) }}</dd>
+            <dt>Recent avg (2025+)</dt>
+            <dd class="price">&pound;{{ "{:,}".format(a.recent_avg) }}</dd>
+        </dl>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No price data yet.</p>
+    <a href="{{ url_for('main.price_record_add') }}" class="btn btn-primary">Add the first sale record</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if chart_data %}
+<script>
+const chartData = {{ chart_data | tojson }};
+const colours = [
+    '#1c69d4', '#e74c3c', '#27ae60', '#f39c12',
+    '#9b59b6', '#1abc9c', '#e67e22', '#2c3e50', '#d35400'
+];
+
+const datasets = Object.keys(chartData).map((variant, idx) => ({
+    label: variant,
+    data: chartData[variant].map(p => ({ x: p.date, y: p.price })),
+    borderColor: colours[idx % colours.length],
+    backgroundColor: colours[idx % colours.length] + '33',
+    pointRadius: 5,
+    pointHoverRadius: 7,
+    tension: 0.1,
+    fill: false,
+}));
+
+new Chart(document.getElementById('priceChart'), {
+    type: 'line',
+    data: { datasets },
+    options: {
+        responsive: true,
+        plugins: {
+            title: { display: true, text: 'Sale Prices Over Time (GBP)', font: { size: 16 } },
+            tooltip: {
+                callbacks: {
+                    label: ctx => {
+                        const point = chartData[ctx.dataset.label][ctx.dataIndex];
+                        return `${ctx.dataset.label}: £${ctx.parsed.y.toLocaleString()} (${point.condition})`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                type: 'time',
+                time: { unit: 'month', tooltipFormat: 'DD MMM YYYY' },
+                title: { display: true, text: 'Date Sold' }
+            },
+            y: {
+                title: { display: true, text: 'Price (£)' },
+                ticks: { callback: v => '£' + v.toLocaleString() }
+            }
+        }
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

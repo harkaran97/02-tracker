@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ title }}</h1>
+</div>
+
+<div class="card">
+    <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-grid">
+            <div class="form-group">
+                {{ form.variant_id.label }}
+                {{ form.variant_id(class="") }}
+            </div>
+            <div class="form-group">
+                {{ form.price_gbp.label }}
+                {{ form.price_gbp(class="", placeholder="e.g. 25000") }}
+                {% for error in form.price_gbp.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.year_of_car.label }}
+                {{ form.year_of_car(class="", placeholder="e.g. 1973") }}
+            </div>
+            <div class="form-group">
+                {{ form.condition.label }}
+                {{ form.condition(class="") }}
+            </div>
+            <div class="form-group">
+                {{ form.source.label }}
+                {{ form.source(class="", placeholder="e.g. Bonhams, eBay, Car & Classic") }}
+            </div>
+            <div class="form-group">
+                {{ form.sold_date.label }}
+                {{ form.sold_date(class="", type="date") }}
+                {% for error in form.sold_date.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.notes.label }}
+            {{ form.notes(class="", placeholder="Any details about this sale...") }}
+        </div>
+        <div class="form-actions">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('main.market') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

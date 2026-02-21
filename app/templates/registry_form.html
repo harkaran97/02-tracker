@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ title }}</h1>
+</div>
+
+<div class="card">
+    <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-grid">
+            <div class="form-group">
+                {{ form.variant_id.label }}
+                {{ form.variant_id(class="") }}
+                {% for error in form.variant_id.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.year.label }}
+                {{ form.year(class="", placeholder="e.g. 1973") }}
+                {% for error in form.year.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.colour.label }}
+                {{ form.colour(class="", placeholder="e.g. Inka Orange") }}
+            </div>
+            <div class="form-group">
+                {{ form.chassis_prefix.label }}
+                {{ form.chassis_prefix(class="") }}
+            </div>
+            <div class="form-group">
+                {{ form.location_region.label }}
+                {{ form.location_region(class="", placeholder="e.g. Surrey") }}
+            </div>
+            <div class="form-group">
+                {{ form.condition.label }}
+                {{ form.condition(class="") }}
+            </div>
+            <div class="form-group">
+                {{ form.mot_status.label }}
+                {{ form.mot_status(class="") }}
+            </div>
+            <div class="form-group">
+                {{ form.mot_expiry.label }}
+                {{ form.mot_expiry(class="", type="date") }}
+            </div>
+            <div class="form-group">
+                {{ form.source.label }}
+                {{ form.source(class="", placeholder="Where did you find this car?") }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.notes.label }}
+            {{ form.notes(class="", placeholder="Any additional details about this car...") }}
+        </div>
+        <div class="form-actions">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('main.registry') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

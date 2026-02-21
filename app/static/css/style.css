@@ -1,0 +1,512 @@
+/* ================================================================
+   BMW 02 Tracker UK — Stylesheet
+   Inspired by BMW's heritage colours: Bavaria blue, silver, white
+   ================================================================ */
+
+:root {
+    --bmw-blue: #1c69d4;
+    --bmw-dark: #1a1a2e;
+    --bmw-silver: #e8eaed;
+    --bmw-white: #ffffff;
+    --bmw-red: #c0392b;
+    --text-primary: #2c3e50;
+    --text-secondary: #606c76;
+    --text-muted: #8899a6;
+    --bg-body: #f4f5f7;
+    --bg-card: #ffffff;
+    --border: #dee2e6;
+    --success: #27ae60;
+    --info: #2980b9;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --radius: 8px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-body);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+}
+
+/* ---- Navbar ---- */
+.navbar {
+    background: var(--bmw-dark);
+    padding: 0.75rem 0;
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.nav-brand {
+    color: var(--bmw-white);
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.brand-icon { font-size: 1.4rem; }
+
+.badge-uk {
+    background: var(--bmw-blue);
+    color: white;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    vertical-align: super;
+}
+
+.nav-links {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.nav-links a {
+    color: var(--bmw-silver);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nav-links a:hover { background: rgba(255,255,255,0.1); color: white; }
+.nav-links a.active { background: var(--bmw-blue); color: white; }
+
+/* ---- Flash Messages ---- */
+.flash-messages { margin: 1rem 0; }
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+.flash-success { background: #d4edda; color: #155724; }
+.flash-info { background: #d1ecf1; color: #0c5460; }
+.flash-warning { background: #fff3cd; color: #856404; }
+.flash-danger { background: #f8d7da; color: #721c24; }
+
+/* ---- Page Headers ---- */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2rem 0 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--bmw-dark);
+}
+
+.page-header h1 small {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 0.15rem;
+}
+
+/* ---- Cards ---- */
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--bmw-silver);
+}
+
+/* ---- Stat Cards (Dashboard) ---- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--bmw-blue);
+    line-height: 1.2;
+}
+
+.stat-card .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+}
+
+/* ---- Tables ---- */
+.table-wrapper { overflow-x: auto; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+th, td {
+    padding: 0.7rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: var(--bmw-dark);
+    color: white;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+th:first-child { border-radius: var(--radius) 0 0 0; }
+th:last-child { border-radius: 0 var(--radius) 0 0; }
+
+tr:hover { background: #f8f9fa; }
+
+/* ---- Badges ---- */
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.badge-success { background: #d4edda; color: #155724; }
+.badge-info { background: #d1ecf1; color: #0c5460; }
+.badge-warning { background: #fff3cd; color: #856404; }
+.badge-danger { background: #f8d7da; color: #721c24; }
+.badge-secondary { background: #e2e3e5; color: #383d41; }
+
+.badge-concours { background: #ffeaa7; color: #6c5b00; }
+.badge-excellent { background: #d4edda; color: #155724; }
+.badge-good { background: #d1ecf1; color: #0c5460; }
+.badge-fair { background: #fff3cd; color: #856404; }
+.badge-project { background: #f8d7da; color: #721c24; }
+
+.badge-rising { background: #d4edda; color: #155724; }
+.badge-stable { background: #d1ecf1; color: #0c5460; }
+.badge-falling { background: #f8d7da; color: #721c24; }
+
+/* ---- Buttons ---- */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary { background: var(--bmw-blue); color: white; }
+.btn-primary:hover { background: #1557b0; }
+
+.btn-secondary { background: var(--bmw-silver); color: var(--text-primary); }
+.btn-secondary:hover { background: #d1d5db; }
+
+.btn-danger { background: var(--danger); color: white; }
+.btn-danger:hover { background: #c0392b; }
+
+.btn-sm { padding: 0.3rem 0.7rem; font-size: 0.78rem; }
+
+.btn-group { display: flex; gap: 0.35rem; }
+
+/* ---- Forms ---- */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--text-primary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--bmw-blue);
+    box-shadow: 0 0 0 3px rgba(28,105,212,0.15);
+}
+
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0 1.5rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-check input[type="checkbox"] { width: auto; }
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+/* ---- Filters Bar ---- */
+.filters {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.filters select {
+    padding: 0.45rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    background: white;
+}
+
+.filters .filter-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ---- Variant Grid (Dashboard) ---- */
+.variant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.variant-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.25rem;
+    border-left: 4px solid var(--bmw-blue);
+    transition: box-shadow 0.2s;
+}
+
+.variant-card:hover { box-shadow: var(--shadow-lg); }
+
+.variant-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--bmw-dark);
+}
+
+.variant-card .variant-meta {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+}
+
+.variant-card .variant-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+}
+
+.variant-card .variant-stats dt {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.variant-card .variant-stats dd {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ---- Price / Money ---- */
+.price {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.price-large {
+    font-size: 1.3rem;
+    color: var(--bmw-dark);
+}
+
+/* ---- Market Chart Area ---- */
+.chart-container {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    min-height: 350px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    max-height: 350px;
+}
+
+/* ---- Analysis Cards ---- */
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.analysis-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.25rem;
+}
+
+.analysis-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.analysis-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1rem;
+    font-size: 0.85rem;
+}
+
+.analysis-stats dt { color: var(--text-muted); }
+.analysis-stats dd { font-weight: 600; }
+
+/* ---- Deal Rating Tooltip ---- */
+.deal-rating {
+    cursor: help;
+    position: relative;
+}
+
+.deal-rating .deal-detail {
+    display: none;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bmw-dark);
+    color: white;
+    padding: 0.4rem 0.7rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.deal-rating:hover .deal-detail { display: block; }
+
+/* ---- Empty State ---- */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}
+
+.empty-state p { font-size: 1.1rem; margin-bottom: 1rem; }
+
+/* ---- Footer ---- */
+.footer {
+    margin-top: auto;
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .page-header { flex-direction: column; align-items: flex-start; }
+    .nav-container { flex-direction: column; align-items: flex-start; }
+    .nav-links { width: 100%; overflow-x: auto; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-grid { grid-template-columns: 1fr; }
+}
