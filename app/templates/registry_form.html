@@ -14,12 +14,12 @@
             <div class="form-group">
                 {{ form.variant_id.label }}
                 {{ form.variant_id(class="") }}
-                {% for error in form.variant_id.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+                {% for error in form.variant_id.errors %}<small class="form-error">{{ error }}</small>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.year.label }}
                 {{ form.year(class="", placeholder="e.g. 1973") }}
-                {% for error in form.year.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+                {% for error in form.year.errors %}<small class="form-error">{{ error }}</small>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.colour.label }}

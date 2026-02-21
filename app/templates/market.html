@@ -13,7 +13,7 @@
 </div>
 
 <form class="filters" method="get">
-    <span class="filter-label">Filter:</span>
+    <span class="filter-label">Filter</span>
     <select name="variant" onchange="this.form.submit()">
         <option value="">All Variants</option>
         {% for v in variants %}
@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if analysis %}
-<h2 style="margin-bottom: 1rem;">Variant Analysis</h2>
+<h2 style="margin-bottom: 1.25rem;">Variant Analysis</h2>
 <div class="analysis-grid">
     {% for a in analysis %}
     <div class="analysis-card">
@@ -66,19 +66,23 @@
 <script>
 const chartData = {{ chart_data | tojson }};
 const colours = [
-    '#1c69d4', '#e74c3c', '#27ae60', '#f39c12',
-    '#9b59b6', '#1abc9c', '#e67e22', '#2c3e50', '#d35400'
+    '#c45a32', '#3672a4', '#3d8b5e', '#b88a2d',
+    '#8b5e96', '#2e8b8b', '#c47832', '#5c5650', '#a94b28'
 ];
 
 const datasets = Object.keys(chartData).map((variant, idx) => ({
     label: variant,
     data: chartData[variant].map(p => ({ x: p.date, y: p.price })),
     borderColor: colours[idx % colours.length],
-    backgroundColor: colours[idx % colours.length] + '33',
+    backgroundColor: colours[idx % colours.length] + '22',
     pointRadius: 5,
     pointHoverRadius: 7,
-    tension: 0.1,
+    pointBackgroundColor: colours[idx % colours.length],
+    pointBorderColor: '#fff',
+    pointBorderWidth: 2,
+    tension: 0.2,
     fill: false,
+    borderWidth: 2.5,
 }));
 
 new Chart(document.getElementById('priceChart'), {
@@ -87,8 +91,28 @@ new Chart(document.getElementById('priceChart'), {
     options: {
         responsive: true,
         plugins: {
-            title: { display: true, text: 'Sale Prices Over Time (GBP)', font: { size: 16 } },
+            title: {
+                display: true,
+                text: 'Sale Prices Over Time (GBP)',
+                font: { size: 15, family: "'Newsreader', Georgia, serif", weight: '500' },
+                color: '#1a1612',
+                padding: { bottom: 16 }
+            },
+            legend: {
+                labels: {
+                    font: { size: 12, family: "'Inter', sans-serif" },
+                    color: '#5c5650',
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    padding: 16
+                }
+            },
             tooltip: {
+                backgroundColor: '#2c2418',
+                titleFont: { family: "'Inter', sans-serif", size: 12 },
+                bodyFont: { family: "'Inter', sans-serif", size: 12 },
+                cornerRadius: 8,
+                padding: 10,
                 callbacks: {
                     label: ctx => {
                         const point = chartData[ctx.dataset.label][ctx.dataIndex];
@@ -101,11 +125,14 @@ new Chart(document.getElementById('priceChart'), {
             x: {
                 type: 'time',
                 time: { unit: 'month', tooltipFormat: 'DD MMM YYYY' },
-                title: { display: true, text: 'Date Sold' }
+                title: { display: true, text: 'Date Sold', color: '#9a918a', font: { size: 12 } },
+                grid: { color: '#eee9e2' },
+                ticks: { color: '#9a918a', font: { size: 11 } }
             },
             y: {
-                title: { display: true, text: 'Price (£)' },
-                ticks: { callback: v => '£' + v.toLocaleString() }
+                title: { display: true, text: 'Price (£)', color: '#9a918a', font: { size: 12 } },
+                grid: { color: '#eee9e2' },
+                ticks: { callback: v => '£' + v.toLocaleString(), color: '#9a918a', font: { size: 11 } }
             }
         }
     }
