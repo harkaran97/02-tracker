@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BMW 02 Tracker{% endblock %} — UK</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="{{ url_for('main.index') }}" class="nav-brand">
+                <span class="brand-icon">&#9881;</span> BMW 02 Tracker <span class="badge-uk">UK</span>
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('main.index') }}" class="{% if request.endpoint == 'main.index' %}active{% endif %}">Dashboard</a>
+                <a href="{{ url_for('main.registry') }}" class="{% if 'registry' in request.endpoint %}active{% endif %}">Registry</a>
+                <a href="{{ url_for('main.listings') }}" class="{% if 'listing' in request.endpoint %}active{% endif %}">Listings</a>
+                <a href="{{ url_for('main.market') }}" class="{% if 'market' in request.endpoint or 'price' in request.endpoint %}active{% endif %}">Market</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>BMW 02 Tracker UK &mdash; Tracking the surviving BMW 02 series in Britain</p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

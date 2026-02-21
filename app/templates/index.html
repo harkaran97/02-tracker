@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard <small>BMW 02 Series — UK Survival Tracker</small></h1>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_registry }}</div>
+        <div class="stat-label">Known Survivors</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_listings }}</div>
+        <div class="stat-label">Active Listings</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_sold }}</div>
+        <div class="stat-label">Sale Records</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ variant_stats|length }}</div>
+        <div class="stat-label">Model Variants</div>
+    </div>
+</div>
+
+<h2 style="margin-bottom: 1rem;">Model Variants</h2>
+<div class="variant-grid">
+    {% for vs in variant_stats %}
+    <div class="variant-card">
+        <h3>{{ vs.variant.name }}</h3>
+        <div class="variant-meta">
+            {{ vs.variant.year_start }}&ndash;{{ vs.variant.year_end }} &middot;
+            {{ vs.variant.engine_cc }}cc &middot;
+            {{ vs.variant.bhp }} bhp
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+            {{ vs.variant.description }}
+        </p>
+        <dl class="variant-stats">
+            <dt>Est. UK survivors</dt>
+            <dd>~{{ vs.variant.estimated_uk_survivors }}</dd>
+            <dt>In registry</dt>
+            <dd>{{ vs.registry_count }}</dd>
+            <dt>For sale</dt>
+            <dd>{{ vs.listing_count }}</dd>
+            <dt>Avg sale price</dt>
+            <dd>{% if vs.avg_price %}&pound;{{ "{:,}".format(vs.avg_price) }}{% else %}&mdash;{% endif %}</dd>
+        </dl>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

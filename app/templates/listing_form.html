@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ title }}</h1>
+</div>
+
+<div class="card">
+    <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-grid">
+            <div class="form-group" style="grid-column: 1 / -1">
+                {{ form.title.label }}
+                {{ form.title(class="", placeholder="e.g. 1974 BMW 2002 Round Tail - Inka Orange") }}
+                {% for error in form.title.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.variant_id.label }}
+                {{ form.variant_id(class="") }}
+            </div>
+            <div class="form-group">
+                {{ form.year.label }}
+                {{ form.year(class="", placeholder="e.g. 1973") }}
+            </div>
+            <div class="form-group">
+                {{ form.price_gbp.label }}
+                {{ form.price_gbp(class="", placeholder="e.g. 25000") }}
+                {% for error in form.price_gbp.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.mileage.label }}
+                {{ form.mileage(class="", placeholder="e.g. 87000") }}
+            </div>
+            <div class="form-group">
+                {{ form.condition.label }}
+                {{ form.condition(class="") }}
+            </div>
+            <div class="form-group">
+                {{ form.colour.label }}
+                {{ form.colour(class="", placeholder="e.g. Chamonix White") }}
+            </div>
+            <div class="form-group">
+                {{ form.location.label }}
+                {{ form.location(class="", placeholder="e.g. Brighton, East Sussex") }}
+            </div>
+            <div class="form-group">
+                {{ form.source_site.label }}
+                {{ form.source_site(class="") }}
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1">
+                {{ form.source_url.label }}
+                {{ form.source_url(class="", placeholder="https://...") }}
+            </div>
+            <div class="form-group">
+                {{ form.listed_at.label }}
+                {{ form.listed_at(class="", type="date") }}
+            </div>
+            <div class="form-group">
+                {{ form.sold_at.label }}
+                {{ form.sold_at(class="", type="date") }}
+            </div>
+        </div>
+        <div class="form-check">
+            {{ form.is_sold() }} {{ form.is_sold.label }}
+        </div>
+        <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description(class="", placeholder="Listing description...") }}
+        </div>
+        <div class="form-actions">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('main.listings') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

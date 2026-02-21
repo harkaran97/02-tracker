@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Registry{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>UK Survivor Registry <small>Known BMW 02 series cars still in existence in Britain</small></h1>
+    <a href="{{ url_for('main.registry_add') }}" class="btn btn-primary">+ Add Car</a>
+</div>
+
+<form class="filters" method="get">
+    <span class="filter-label">Filter:</span>
+    <select name="variant" onchange="this.form.submit()">
+        <option value="">All Variants</option>
+        {% for v in variants %}
+        <option value="{{ v.id }}" {% if variant_filter == v.id %}selected{% endif %}>{{ v.name }}</option>
+        {% endfor %}
+    </select>
+    <select name="condition" onchange="this.form.submit()">
+        <option value="">All Conditions</option>
+        <option value="concours" {% if condition_filter == 'concours' %}selected{% endif %}>Concours</option>
+        <option value="excellent" {% if condition_filter == 'excellent' %}selected{% endif %}>Excellent</option>
+        <option value="good" {% if condition_filter == 'good' %}selected{% endif %}>Good</option>
+        <option value="fair" {% if condition_filter == 'fair' %}selected{% endif %}>Fair</option>
+        <option value="project" {% if condition_filter == 'project' %}selected{% endif %}>Project</option>
+    </select>
+    {% if variant_filter or condition_filter %}
+    <a href="{{ url_for('main.registry') }}" class="btn btn-secondary btn-sm">Clear filters</a>
+    {% endif %}
+</form>
+
+{% if cars %}
+<div class="card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Variant</th>
+                    <th>Year</th>
+                    <th>Colour</th>
+                    <th>Region</th>
+                    <th>Condition</th>
+                    <th>MOT</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td><strong>{{ car.variant.name }}</strong></td>
+                    <td>{{ car.year }}</td>
+                    <td>{{ car.colour or '—' }}</td>
+                    <td>{{ car.location_region or '—' }}</td>
+                    <td>
+                        {% if car.condition %}
+                        <span class="badge badge-{{ car.condition }}">{{ car.condition }}</span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td>
+                        {% if car.mot_status == 'valid' %}
+                        <span class="badge badge-success">Valid{% if car.mot_expiry %} ({{ car.mot_expiry.strftime('%b %Y') }}){% endif %}</span>
+                        {% elif car.mot_status == 'sorn' %}
+                        <span class="badge badge-warning">SORN</span>
+                        {% elif car.mot_status == 'exempt' %}
+                        <span class="badge badge-info">Exempt</span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td style="max-width: 250px; font-size: 0.82rem;">{{ car.notes or '—' }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ url_for('main.registry_edit', car_id=car.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+                            <form method="post" action="{{ url_for('main.registry_delete', car_id=car.id) }}" style="display:inline" onsubmit="return confirm('Delete this entry?')">
+                                <button type="submit" class="btn btn-danger btn-sm">Del</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<p style="color: var(--text-muted); font-size: 0.82rem;">Showing {{ cars|length }} car{{ 's' if cars|length != 1 }} in registry</p>
+{% else %}
+<div class="empty-state">
+    <p>No cars in the registry yet.</p>
+    <a href="{{ url_for('main.registry_add') }}" class="btn btn-primary">Add the first car</a>
+</div>
+{% endif %}
+{% endblock %}
