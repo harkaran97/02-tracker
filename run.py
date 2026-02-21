@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run the BMW 02 Tracker application."""
 
-from app import create_app, db
+from app import create_app
 from app.seed import seed_database
 
 app = create_app()
