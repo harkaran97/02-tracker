@@ -18,7 +18,7 @@
             <div class="form-group">
                 {{ form.price_gbp.label }}
                 {{ form.price_gbp(class="", placeholder="e.g. 25000") }}
-                {% for error in form.price_gbp.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+                {% for error in form.price_gbp.errors %}<small class="form-error">{{ error }}</small>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.year_of_car.label }}
@@ -35,7 +35,7 @@
             <div class="form-group">
                 {{ form.sold_date.label }}
                 {{ form.sold_date(class="", type="date") }}
-                {% for error in form.sold_date.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+                {% for error in form.sold_date.errors %}<small class="form-error">{{ error }}</small>{% endfor %}
             </div>
         </div>
         <div class="form-group">

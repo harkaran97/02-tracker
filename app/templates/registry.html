@@ -9,7 +9,7 @@
 </div>
 
 <form class="filters" method="get">
-    <span class="filter-label">Filter:</span>
+    <span class="filter-label">Filter</span>
     <select name="variant" onchange="this.form.submit()">
         <option value="">All Variants</option>
         {% for v in variants %}
@@ -30,7 +30,7 @@
 </form>
 
 {% if cars %}
-<div class="card">
+<div class="card" style="padding: 0; overflow: hidden;">
     <div class="table-wrapper">
         <table>
             <thead>
@@ -81,7 +81,7 @@
         </table>
     </div>
 </div>
-<p style="color: var(--text-muted); font-size: 0.82rem;">Showing {{ cars|length }} car{{ 's' if cars|length != 1 }} in registry</p>
+<p class="result-count">Showing {{ cars|length }} car{{ 's' if cars|length != 1 }} in registry</p>
 {% else %}
 <div class="empty-state">
     <p>No cars in the registry yet.</p>

@@ -9,14 +9,14 @@
 </div>
 
 <form class="filters" method="get">
-    <span class="filter-label">Filter:</span>
+    <span class="filter-label">Filter</span>
     <select name="variant" onchange="this.form.submit()">
         <option value="">All Variants</option>
         {% for v in variants %}
         <option value="{{ v.id }}" {% if variant_filter == v.id %}selected{% endif %}>{{ v.name }}</option>
         {% endfor %}
     </select>
-    <label style="display: flex; align-items: center; gap: 0.3rem; font-size: 0.85rem;">
+    <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; cursor: pointer;">
         <input type="checkbox" name="sold" value="1" {% if show_sold %}checked{% endif %} onchange="this.form.submit()">
         Include sold
     </label>
@@ -26,7 +26,7 @@
 </form>
 
 {% if listings %}
-<div class="card">
+<div class="card" style="padding: 0; overflow: hidden;">
     <div class="table-wrapper">
         <table>
             <thead>
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
                 {% for listing in listings %}
-                <tr {% if listing.is_sold %}style="opacity: 0.55"{% endif %}>
+                <tr {% if listing.is_sold %}style="opacity: 0.5"{% endif %}>
                     <td>
                         <strong>{{ listing.title }}</strong>
                         {% if listing.is_sold %}<span class="badge badge-secondary">SOLD</span>{% endif %}
@@ -87,7 +87,7 @@
         </table>
     </div>
 </div>
-<p style="color: var(--text-muted); font-size: 0.82rem;">Showing {{ listings|length }} listing{{ 's' if listings|length != 1 }}</p>
+<p class="result-count">Showing {{ listings|length }} listing{{ 's' if listings|length != 1 }}</p>
 {% else %}
 <div class="empty-state">
     <p>No listings tracked yet.</p>

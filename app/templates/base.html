@@ -9,9 +9,11 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="container nav-container">
+        <div class="container nav-inner">
             <a href="{{ url_for('main.index') }}" class="nav-brand">
-                <span class="brand-icon">&#9881;</span> BMW 02 Tracker <span class="badge-uk">UK</span>
+                <span class="brand-icon">02</span>
+                BMW 02 Tracker
+                <span class="badge-uk">UK</span>
             </a>
             <div class="nav-links">
                 <a href="{{ url_for('main.index') }}" class="{% if request.endpoint == 'main.index' %}active{% endif %}">Dashboard</a>

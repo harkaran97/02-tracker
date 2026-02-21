@@ -14,7 +14,7 @@
             <div class="form-group" style="grid-column: 1 / -1">
                 {{ form.title.label }}
                 {{ form.title(class="", placeholder="e.g. 1974 BMW 2002 Round Tail - Inka Orange") }}
-                {% for error in form.title.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+                {% for error in form.title.errors %}<small class="form-error">{{ error }}</small>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.variant_id.label }}
@@ -27,7 +27,7 @@
             <div class="form-group">
                 {{ form.price_gbp.label }}
                 {{ form.price_gbp(class="", placeholder="e.g. 25000") }}
-                {% for error in form.price_gbp.errors %}<small style="color:var(--danger)">{{ error }}</small>{% endfor %}
+                {% for error in form.price_gbp.errors %}<small class="form-error">{{ error }}</small>{% endfor %}
             </div>
             <div class="form-group">
                 {{ form.mileage.label }}
